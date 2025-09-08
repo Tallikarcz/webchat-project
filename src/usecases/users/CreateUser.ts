@@ -1,16 +1,11 @@
-import UserRepository from "../../repository/UserRepository";
-import User from "../../entities/User";
+import { UserModel } from "../../models/User"; 
 
 export class CreateUser {
-    private userRepo: UserRepository;
-    constructor(userRepo: UserRepository) {
-        this.userRepo = userRepo;
-    }
 
-    execute(name: string, email: string, password: string): User {
+    async execute(username: string, email: string, password: string): Promise<any> {
 
-        if (!name) {
-            throw new Error("name is required");
+        if (!username) {
+            throw new Error("username is required");
         }
 
         if (!email) {
@@ -20,14 +15,19 @@ export class CreateUser {
         if (!password) {
             throw new Error("password is required");
         }
+        
         // Business Rule: email must be unique
-        const existingUser = this.userRepo.findAll().find(user => user.email === email);
+        const existingUser = await UserModel.findOne({ email });
         if (existingUser) {
             throw new Error("email is already in use");
         }
-        // Create new user with auto generated ID
-        const newUser = new User(this.userRepo.getNextId(), name, email, password);
-        this.userRepo.addUser(newUser);
+
+        // Create new user
+        const newUser = await UserModel.create({
+            username,
+            email,
+            password,
+        });
         return newUser;
     }
 }

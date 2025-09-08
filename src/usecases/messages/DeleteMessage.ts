@@ -1,29 +1,26 @@
-import User from "../../entities/User";
-import Message from "../../entities/Message";
-import MessageRepository from "../../repository/MessageRepository";
+import { MessageModel } from "../../models/Message";
 
 export class DeleteMessage {
-    private messageRepo: MessageRepository;
 
-    constructor(messageRepo: MessageRepository) {
-        this.messageRepo = messageRepo;
-    }
+    async execute(messageId: string, userId: string): Promise<{success: boolean, deletedId: string, message: string}> {
 
-    execute(messageId: number, user: User): Message {
-        
-        // Business Rule: only the user who sent the message can delete it
-        const message = this.messageRepo.findMessageById(messageId);
+        if (!messageId || !userId) {
+            throw new Error("Message ID and User ID are required");
+        }
+
+        // Find existing message by ID
+        const message = await MessageModel.findById(messageId);
         if (!message) {
             throw new Error("Message not found");
         }
 
         // Business Rule: only the user who sent the message can delete it
-        if (message.user.id !== user.id) {
+        if (message.senderId.toString() !== userId) {
             throw new Error("You do not have permission to delete this message");
         }
 
-        // Delete message from repository
-        return this.messageRepo.deleteMessage(messageId);
+        // Delete message
+        await message.deleteOne();
+        return { success: true, deletedId: messageId, message: "Message deleted successfully" };
     }
 }
-

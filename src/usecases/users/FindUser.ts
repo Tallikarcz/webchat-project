@@ -1,17 +1,13 @@
-import UserRepository from "../../repository/UserRepository";
-import User from "../../entities/User";
+import { UserModel } from "../../models/User";
 
 export class FindUser {
-    private userRepo: UserRepository;
-    constructor(userRepo: UserRepository) {
-        this.userRepo = userRepo;
-    }
 
-    execute(userId: number): User {
-        const user = this.userRepo.findById(userId);
+    async execute(userId: string): Promise<any> {
+
+        const user = await UserModel.findById({userId});
         if (!user) {
             throw new Error("User not found");
         }
-        return user;
+        return user.toObject();
     }
 }

@@ -6,14 +6,14 @@ const router = Router();
 // GET: Obtener mensajes de un chat entre dos usuarios
 router.get('/chat/:userId/:peerId', MessageController.getChatMessages);
 
-// GET: Obtener mensaje por ID de mensaje
-router.get('/:id', MessageController.getMessageById);
+// // GET: Obtener mensaje por ID de mensaje
+// router.get('/:id', MessageController.getMessageById);
 
 // GET: Obtener todos los mensajes
-router.get('/', MessageController.getAllMessages);
+router.get('/', MessageController.getChatMessages);
 
-// POST: Crear un nuevo mensaje
-router.post('/', MessageController.createMessage);
+// POST: Enviar un nuevo mensaje
+router.post('/', MessageController.sendMessage);
 
 // PUT: Actualizar un mensaje existente
 router.put('/:id', MessageController.editMessage);

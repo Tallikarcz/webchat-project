@@ -1,32 +1,35 @@
-import Message from "../../entities/Message"; 
-import User from "../../entities/User";
-import MessageRepository from "../../repository/MessageRepository";
+import { UserModel } from "../../models/User";
+import { MessageModel } from "../../models/Message";
 
 export class EditMessage {
-    private messageRepo: MessageRepository;
 
-    constructor(messageRepo: MessageRepository) {
-        this.messageRepo = messageRepo;
-    }
-
-    execute(id: number, newContent: string, user: User): Message {
+    async execute(msgId: string, newContent: string, userId: string): Promise<any> {
         // Business Rule: no empty messages
         if (!newContent || newContent.trim() === "") {
-            throw new Error("El mensaje no puede estar vacío");
+            throw new Error("Message content cannot be empty");
         }
 
         // Find existing message by ID
-        const message = this.messageRepo.findMessageById(id);
+        const message = await MessageModel.findById(msgId);
         if (!message) {
-            throw new Error("Mensaje no encontrado");
+            throw new Error("Message not found");
+        }
+
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            throw new Error("User not found");
         }
 
         // Business Rule: only the user who sent the message can edit it
-        if (message.user.id !== user.id) {
-            throw new Error("No tienes permiso para editar este mensaje");
+        if (message.senderId.toString() !== userId) {
+            throw new Error("You do not have permission to edit this message");
         }
 
         message.content = newContent;
-        return message;
+
+        // Save updated message
+        await message.save();
+
+        return message.toObject();
     }
 }

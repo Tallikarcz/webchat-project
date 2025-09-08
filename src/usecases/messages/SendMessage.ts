@@ -1,25 +1,27 @@
-import Message from "../../entities/Message";
-import User from "../../entities/User";
-import MessageRepository from "../../repository/MessageRepository";
+import { MessageModel } from "../../models/Message";
+import { UserModel } from "../../models/User";
 
 export class SendMessage {
-    private messageRepo: MessageRepository;
 
-    constructor(messageRepo: MessageRepository) {
-        this.messageRepo = messageRepo;
-    }
-
-    execute(content: string, sender: User, receiver: User): Message {
+    async execute(content: string, senderId: string, receiverId: string) {
         // Business Rule: no empty messages
         if (!content || content.trim() === "") {
-            throw new Error("El mensaje no puede estar vacío");
+            throw new Error("Message can't be empty");
         }
 
-        // Create new message with auto generated ID
-        const message = new Message(this.messageRepo.getNextId(), content, sender, sender.id, receiver.id, new Date());
+        const sender = await UserModel.findById(senderId);
+        const receiver = await UserModel.findById(receiverId);
 
-        // Save to repository
-        this.messageRepo.addMessage(message);
+        if (!sender || !receiver) {
+            throw new Error("Sender or receiver not found");
+        }
+
+        // Create new message
+        const message = await MessageModel.create({
+            content,
+            senderId,
+            receiverId,
+        });
 
         return message;
     }

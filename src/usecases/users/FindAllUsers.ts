@@ -1,16 +1,11 @@
-import UserRepository from "../../repository/UserRepository";
-import User from "../../entities/User";
+import { UserModel } from "../../models/User";
 
 export class FindAllUsers {
-    private userRepo: UserRepository;
-    constructor(userRepo: UserRepository) {
-        this.userRepo = userRepo;
-    }
 
-    execute(): User[] {
+    async execute(): Promise<any> {
 
-        const users = this.userRepo.findAll();
-        if (users.length === 0) {
+        const users = await UserModel.find();
+        if (!users || users.length === 0) {
             throw new Error("No users found");
         }
         return users;
