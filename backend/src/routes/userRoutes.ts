@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import { UserController } from '../controllers/UserController';
+import { authenticate } from '../middlewares/auth';
 
 const router = Router();
 
 // GET: Obtener todos los usuarios
-router.get('/', UserController.getAllUsers);
+router.get('/', authenticate, UserController.getAllUsers);
 
 // GET: Obtener usuario por ID
-router.get('/:id', UserController.getUserById);
+router.get('/:id', authenticate, UserController.getUserById);
 
 // POST: Crear un nuevo usuario
 router.post('/', UserController.createUser);
@@ -16,6 +17,6 @@ router.post('/', UserController.createUser);
 // router.put('/:id', UserController.updateUser);
 
 // DELETE: Eliminar un usuario
-router.delete('/:id', UserController.deleteUser);
+router.delete('/:id', authenticate, UserController.deleteUser);
 
 export default router;
