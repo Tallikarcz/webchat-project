@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { loginUser } from "../lib/api";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function useLogin() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export function useLogin() {
     try {
       const data = await loginUser(email, password);
       console.log("Login successful:", data);
+      toast.success("Login feito com sucesso!");
       router.push("/");
     } catch (err: any) {
       console.log("Login failed:", err.message);

@@ -11,6 +11,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useLogin } from "@/hooks/useLogin"
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export function LoginForm({
   className,
@@ -25,6 +27,11 @@ export function LoginForm({
     handleSubmit,
   } = useLogin();
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
     return (
       <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -82,7 +89,6 @@ export function LoginForm({
                   </a>
                 </div>
               </div>
-              {error && <p style={{ color: "red" }}>{error}</p>}
             </form>
           </CardContent>
         </Card>
