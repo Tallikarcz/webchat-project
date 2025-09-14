@@ -67,7 +67,7 @@ export function AppSidebar() {
                                 <DropdownMenu open={dropdownOpen} onOpenChange={handleDropdownChange}>
                                     <DropdownMenuTrigger asChild>
                                         <SidebarMenuButton size={"lg"} isActive={dropdownOpen}
-                                            className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground !outline-none !ring-0">
+                                            className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground !outline-none !ring-0 cursor-pointer">
                                             <Avatar>
                                                 <AvatarImage src="https://i.pravatar.cc/150?img=3" alt="User Avatar" />
                                                 <AvatarFallback>UA</AvatarFallback>
@@ -113,7 +113,7 @@ export function AppSidebar() {
     hover:bg-primary/90 hover:text-white 
     transition-all duration-200 ease-in-out 
     rounded-md
-    ${open ? "p-6" : ""}
+    ${open ? "p-5 mb-2" : ""}
   `}>
                         <a href="#">
                             <MessageCirclePlus />
