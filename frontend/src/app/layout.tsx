@@ -27,9 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -39,6 +37,7 @@ export default function RootLayout({
           <div className="fixed top-4 right-4 z-50">
             <ModeToggle />
           </div>
+
           {children}
           <Toaster />
         </ThemeProvider>
