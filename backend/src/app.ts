@@ -5,7 +5,8 @@ import authRoutes from './routes/authRoutes';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 
-const allowedOrigins = ['http://localhost:3000','http://localhost:3001'];
+// Allow the frontend dev server (http://localhost:5174) plus existing origins
+const allowedOrigins = ['http://localhost:3000','http://localhost:3001','http://localhost:5174'];
 
 const app = express();
 app.use(express.json());

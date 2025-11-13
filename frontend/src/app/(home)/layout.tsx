@@ -1,17 +1,14 @@
-"use client"
+"use client";
 
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import Protected from "@/components/protected";
+import { ReactNode } from "react";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
+  // Protect all pages under the (home) route group and provide a simple
+  // shared layout wrapper for spacing / min-height.
   return (
-    <SidebarProvider>
-      <AppSidebar />
-        <SidebarTrigger 
-        className="md:hidden"/>
-      <main>
-        {children}
-      </main>
-    </SidebarProvider>
-  )
+    <Protected>
+      <div className="min-h-screen font-sans">{children}</div>
+    </Protected>
+  );
 }
