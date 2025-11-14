@@ -1,4 +1,4 @@
-import { Home, Inbox, Settings, MessageCirclePlus } from "lucide-react";
+import { MessageCirclePlus } from "lucide-react";
 import React from "react";
 
 import {

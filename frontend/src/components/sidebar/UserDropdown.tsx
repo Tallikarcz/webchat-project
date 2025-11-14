@@ -43,7 +43,8 @@ export function UserDropdown({ isOpen, onOpenChange, sidebarOpen }: UserDropdown
         </DropdownMenuItem>
         <DropdownMenuItem>
           <SidebarMenuButton asChild>
-            <button onClick={logout}>Sair</button>
+            <button onClick={logout}
+            className="cursor-pointer">Sair</button>
           </SidebarMenuButton>
         </DropdownMenuItem>
       </DropdownMenuContent>

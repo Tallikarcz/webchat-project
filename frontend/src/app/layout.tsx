@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/ui/darkmode-toggle";
 import { AuthProvider } from "@/lib/auth/authContext";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en">
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -36,11 +37,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-          <div className="fixed top-4 right-4 z-50">
-            <ModeToggle />
-          </div>
-          {children}
-          <Toaster />
+            <div className="fixed top-4 right-4 z-50">
+              <ModeToggle />
+            </div>
+            {/* app content */}
+            {children}
+            <Toaster />
           </AuthProvider>
         </ThemeProvider>
       </body>

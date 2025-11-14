@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useUsers } from "@/hooks/useUsers";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { getAllUsers } from "@/lib/api";
-import { User } from "@/types/user";
 import { SearchInput } from "@/components/common/SearchInput";
 import { UserListItem } from "@/components/chat/UserListItem";
 
@@ -14,27 +13,14 @@ interface NewConversationDialogProps {
 }
 
 export function NewConversationDialog({ open, onOpenChange, onSelectUser }: NewConversationDialogProps) {
-  const [users, setUsers] = useState<User[]>([]);
+  const { users, loading, fetchUsers } = useUsers();
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open) fetchUsers();
-  }, [open]);
+  }, [open, fetchUsers]);
 
-  const fetchUsers = async () => {
-    try {
-      setLoading(true);
-      const data = await getAllUsers();
-      setUsers(data);
-    } catch (err) {
-      console.error("Error fetching users:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filtered = users.filter(u => 
+  const filtered = users.filter(u =>
     u.username.toLowerCase().includes(search.toLowerCase()) ||
     u.email.toLowerCase().includes(search.toLowerCase())
   );
